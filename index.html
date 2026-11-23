@@ -105,9 +105,9 @@ button{cursor:pointer}
 .hello{text-align:center;font-size:clamp(26px,8vw,34px);line-height:1.1;color:var(--cream);text-shadow:0 3px 0 rgba(0,0,0,.35);margin:6px 0 4px}
 .hello em{font-style:normal;color:var(--gold)}
 .hint{text-align:center;margin:0 0 10px;font-weight:700;color:var(--gold);min-height:1.5em}
-.stage{position:relative;height:440px;max-width:360px;margin:0 auto}
+.stage{position:relative;height:calc(440px * var(--s, 1));max-width:360px;margin:0 auto}
 
-.machine{position:absolute;left:50%;top:0;width:270px;transform:translateX(-50%);transition:opacity .6s, filter .6s}
+.machine{position:absolute;left:50%;top:0;width:270px;transform:translateX(-50%) scale(var(--s, 1));transform-origin:top center;transition:opacity .6s, filter .6s}
 .stage.reveal .machine{opacity:.15;filter:blur(2px)}
 .cab{
   position:relative;width:270px;height:410px;border:4px solid var(--ink);border-radius:26px 26px 18px 18px;
@@ -399,6 +399,14 @@ button{cursor:pointer}
   }
   sprinkle(document.querySelector('.card'), 8);
   sprinkle($('stage'), 10);
+
+  /* encaixa a máquina (com a alavanca) em qualquer largura de celular */
+  function fit(){
+    var sc = Math.min(1, (window.innerWidth / 2 - 8) / 175);
+    $('stage').style.setProperty('--s', sc.toFixed(3));
+  }
+  fit();
+  window.addEventListener('resize', fit);
 
   /* tabela de teste */
   var tt = $('testTable');
