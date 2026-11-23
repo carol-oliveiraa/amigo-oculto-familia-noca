@@ -223,10 +223,6 @@ button{cursor:pointer}
 
   <div class="garland" id="garland" aria-hidden="true"></div>
 
-  <details class="test" id="test">
-    <summary>Prévia de teste: toque para ver as palavras de mentirinha</summary>
-    <table id="testTable"></table>
-  </details>
 
   <!-- TELA 1 -->
   <section id="intro">
@@ -301,62 +297,38 @@ button{cursor:pointer}
 
 <script>
 (function(){
-  /* ---------- dados (palavras de teste) ---------- */
-  var KEYS = {
-    'Ana Carolina':'rena31','Breno':'meia45','Camila':'boneca23','Carol':'sino27','Cristina':'vela18','Gabriel':'laco52',
-    'Geraldo':'peru64','Gleisson':'neve77','Guilherme':'gelo36','João Lucas':'bala29','Júlia':'estrela41','Meire':'sapato58',
-    'Ney':'pinho83','Noca':'bolo66','Rafael':'pisca47','Silvana':'lenha92'
-  };
-  var NAMES = Object.keys(KEYS);
-  var FORBID = [
-    ['Ana Carolina','Gabriel'],['Ana Carolina','Breno'],['Cristina','Rafael'],['Cristina','Noca'],
-    ['Rafael','Noca'],['João Lucas','Camila'],['Carol','Ney'],['Ney','Breno']
-  ];
+  /* ---------- resultados trancados ---------- */
+  var DATA = {"s":"oHdoECz+kenecEI8R8azQw==","i":300000,"e":[{"t":"9d153c610dad73debd5b46dfb58c8485f665d9b7ba76f149ea9316f612358aeb","v":"KBkw6q5lTZbrUB+R","c":"vTtiFjO3Pew6wDDwl/Qmq0ZcpkHgziEby/LEPgp0syieuem/QLv1Q9Y="},{"t":"ca224aa81c906f375fa24509ea5674af9c385827bdf9b3ae5385a16769ddb97b","v":"BmsnkJI/7bgVqwYQ","c":"qZccbdvJQ/O+xfrCy+D14J+H59x6TVzWmxu2zCoHZwF7AbKm8jXHETY="},{"t":"01fbd796dc8b47a74ae7b725e39b252b75a0354573861ed359838cbcab7cf014","v":"HNjhBBzucJoLVq6Q","c":"cgrLXDSk1oLhwwZoMjRH7ZLR5hhtHOtnSXzptnrb/ShqizGgHsVV7L/Mc7rqQSddjUor"},{"t":"4c2c8a134d93d0cb23736b19c711e260bc5227157d19a639ef17bd604d616176","v":"gBmDR9J8/X6g/sVX","c":"QhLpGh9Ns47r47e/FQ5PGXICnmhWPYI+Noud6/FY16aD21A20htyTJk6Flif"},{"t":"b4a62f78031ae930cc4f7eaf0d45e14ea1c1701f70726d91897107819f0cb2d1","v":"GKNcApz0fa0jGyuj","c":"oGcR9Zrpe+mas7wyjE5tUdxV4drVLhw24/Xc1PyQ/vOh+yMRUC20RGun9ZunKCQu"},{"t":"7e2b18c4f267c5c2e943e9294fb23bb22b9d96ad09aed99431ce2b737703295b","v":"lVCTcLGS+PKgDgkG","c":"p2izFNJ/1VXuGdibfXVZ3EFEK0IQYYLbA4lCb1xUVsfw1kBzTSq06U1rRQ=="},{"t":"80965d9c910a6314fb922808869d6899a7b44e63fe44e4acd807bcb508455c8b","v":"o+vqa3PWJxcLFPEB","c":"qIo3uYy3JxpwWW3+vniDlIKeDNBnS2dblLOllfrhsut5isKc5aNHBj9sOQ=="},{"t":"2af3b36b170fe45ad9e87328bdae7bd9bc69782d5f7f0037b0dd285684272c31","v":"8KEnO+Q1c/6Az1MN","c":"Q7EAMc3VscOcA2V/DvqZhHhWQWkhAzpusS127YrF+tFT+r5+Gso4Xw=="},{"t":"e8d25f64a13ccfa66132dc7fdf2723e70e3fb9170b75f1db14db02b44dd1467d","v":"ZGMHiP12V+2iePqK","c":"KkfcB1RlMed4ZO4K3snLDnajgrNBchFBNqvJu06w6/HxFiMZkV/8kFQ0c+g1"},{"t":"b7737cd6be978979ecd9308967f2cb82004be13f198602fd6e1e581b874d343e","v":"iLHjrQgXYCSfuDtM","c":"7K55AdsNDnZ446IN9qzsLQdlnU5yp7R32Uw7L7fISnE2jxvklQbDdKW/TUNiFg=="},{"t":"4f57b0c4580d9300422b74a509c94e7aa822bb5618a85673df68da74c214410e","v":"ws2NwvTpEaUcTZGs","c":"TwnAiKCNYw1Tpt/X54OEyvdmzZFfnfsvN7zejwakpOGi3zwx5JmJGUc="},{"t":"c68dd0c05ef08d0e13d6519a46b9b2b5aa7b90dc1c84e673a0de40b7970a7512","v":"0n2BrmHShp3KojxH","c":"3O/1huwxr8bUb45pA6iO/ocgo4ePcBtuXwzEnv/vkptYBkB3ZqwP3ygTzHg="},{"t":"b9f7895832716fd619abafdc2320bce907ff580fda6c5a30ffec068adec95d83","v":"PL3bPdMJv46slihm","c":"Csu1JGxJNb4KGs/mGUmJ+eIvbRNpKexzq1UKn8oEIB/q6amgXRscNIJvFhBh1A=="},{"t":"4d9f969f2cfcb5b4ea095a713459ef373b8f83f770164007eb8cc469e7d5073d","v":"XaJ83fIxQT8D8c7c","c":"K8af449McH5GUtMIO7JJPyfOH1kW0Okb8hdb5Htkd4l+m0lnOyknt+zL5Kjw64xawA=="},{"t":"965a65864f1888dfb194f815d109c0b9304d27d9c7db15f4fbf29152415d2a19","v":"TFQpqtBJQ9fpjgFK","c":"9taY+w3QXkzEtkIOTOK9ZV6NLiROB5FZkdnKuYkhT88+gFRYUV7kWEZYXC/ahFo="},{"t":"336b136be2a0a6a1911bf56edfd091c32966733ab363e27352629f939db29681","v":"9GNq8gJ5NtBNjNUR","c":"FfxMQGs4oOsTnAnzvVPcC1S35hXMCOav8bV/X3OYKNGSusZYv2pMyQtipgc="}]};
   var ORGANIZER = 'Carol';
   var WA_NUMBER = '5531971453134';
-  var HINTS = { 'Cristina': 'Lembrete: você também tem a palavra-chave da Noca. Volte ao início e digite a dela.' };
-  var STORE_KEY = 'ao_noca_teste_v2';
-
-  /*ALGO*/
-  function makeDraw(names, forbid, rand){
-    var bad = {};
-    forbid.forEach(function(p){ bad[p[0]+'|'+p[1]] = true; bad[p[1]+'|'+p[0]] = true; });
-    function ok(g, r){ return g !== r && !bad[g+'|'+r]; }
-    for (var attempt = 0; attempt < 20000; attempt++){
-      var pool = names.slice();
-      for (var i = pool.length - 1; i > 0; i--){
-        var j = Math.floor(rand() * (i + 1));
-        var t = pool[i]; pool[i] = pool[j]; pool[j] = t;
-      }
-      var good = true;
-      for (var k = 0; k < names.length; k++){
-        if (!ok(names[k], pool[k])){ good = false; break; }
-      }
-      if (good){
-        var map = {};
-        names.forEach(function(n, idx){ map[n] = pool[idx]; });
-        return map;
-      }
-    }
-    return null;
-  }
-  /*END*/
+  var currentTarget = '';
 
   function norm(s){
-    return String(s || '').normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().replace(/[^a-z0-9]/g, '');
+    return String(s || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/[^a-z0-9]/g, '');
   }
-  var KEYMAP = {};
-  NAMES.forEach(function(n){ KEYMAP[norm(KEYS[n])] = n; });
-
-  var memoryDraw = null;
-  function getDraw(){
-    try{
-      var raw = localStorage.getItem(STORE_KEY);
-      if (raw){ var d = JSON.parse(raw); if (d && d.Noca) return d; }
-    }catch(e){}
-    if (!memoryDraw) memoryDraw = makeDraw(NAMES, FORBID, Math.random);
-    try{ localStorage.setItem(STORE_KEY, JSON.stringify(memoryDraw)); }catch(e){}
-    return memoryDraw;
+  function b64(str){
+    var bin = atob(str), arr = new Uint8Array(bin.length);
+    for (var i = 0; i < bin.length; i++) arr[i] = bin.charCodeAt(i);
+    return arr;
+  }
+  function hex(buf){
+    return Array.prototype.map.call(new Uint8Array(buf), function(x){ return ('0' + x.toString(16)).slice(-2); }).join('');
+  }
+  // devolve {n: nome, t: amigo oculto} se a palavra-chave destranca alguma entrada; senão null
+  async function openWith(word){
+    var subtle = window.crypto && window.crypto.subtle;
+    if (!subtle) throw new Error('sem-crypto');
+    var enc = new TextEncoder();
+    var base = await subtle.importKey('raw', enc.encode(word), 'PBKDF2', false, ['deriveBits']);
+    var bits = new Uint8Array(await subtle.deriveBits({name:'PBKDF2', salt:b64(DATA.s), iterations:DATA.i, hash:'SHA-256'}, base, 512));
+    var mac = await subtle.importKey('raw', bits.slice(32), {name:'HMAC', hash:'SHA-256'}, false, ['sign']);
+    var tag = hex(await subtle.sign('HMAC', mac, enc.encode('amigo-oculto')));
+    var entry = null;
+    for (var i = 0; i < DATA.e.length; i++){ if (DATA.e[i].t === tag) entry = DATA.e[i]; }
+    if (!entry) return null;
+    var key = await subtle.importKey('raw', bits.slice(0, 32), 'AES-GCM', false, ['decrypt']);
+    var pt = await subtle.decrypt({name:'AES-GCM', iv:b64(entry.v)}, key, b64(entry.c));
+    return JSON.parse(new TextDecoder().decode(pt));
   }
 
   /* ---------- helpers ---------- */
@@ -408,15 +380,6 @@ button{cursor:pointer}
   fit();
   window.addEventListener('resize', fit);
 
-  /* tabela de teste */
-  var tt = $('testTable');
-  NAMES.forEach(function(n){
-    var tr = document.createElement('tr');
-    var a = document.createElement('td'); a.textContent = n;
-    var b = document.createElement('td'); b.textContent = KEYS[n];
-    tr.appendChild(a); tr.appendChild(b); tt.appendChild(tr);
-  });
-
   /* papeizinhos dentro do globo */
   var cage = $('cage');
   for (var i = 0; i < 14; i++){
@@ -432,36 +395,45 @@ button{cursor:pointer}
   var form = $('form'), input = $('key'), errEl = $('err'), openBtn = $('open'), padlock = $('padlock');
   var wrong = 0, current = null;
 
-  form.addEventListener('submit', function(ev){
+  form.addEventListener('submit', async function(ev){
     ev.preventDefault();
     if (openBtn.disabled) return;
-    var who = KEYMAP[norm(input.value)];
-    if (!who){
+    var word = norm(input.value), res = null, label = openBtn.textContent;
+    openBtn.disabled = true; openBtn.textContent = 'Abrindo...';
+    try{
+      if (word) res = await openWith(word);
+    }catch(e){
+      openBtn.disabled = false; openBtn.textContent = label;
+      errEl.textContent = 'Não consegui abrir por aqui. Tente abrir o link no Chrome ou no Safari.';
+      return;
+    }
+    openBtn.textContent = label;
+    if (!res){
       wrong++;
       errEl.textContent = 'Ops, sua palavra-chave está errada. Tente novamente.';
       form.classList.remove('shake'); void form.offsetWidth; form.classList.add('shake');
       if (wrong >= 3){
-        openBtn.disabled = true;
         errEl.textContent = 'Ops, sua palavra-chave está errada. Respira e tente de novo em 10 segundos.';
         later(function(){ openBtn.disabled = false; wrong = 0; errEl.textContent = 'Pode tentar de novo.'; }, 10000);
+      } else {
+        openBtn.disabled = false;
       }
       return;
     }
     errEl.textContent = '';
     wrong = 0;
-    openBtn.disabled = true;
     padlock.classList.add('unlocked');
     confetti(form, 22, '60px');
-    later(function(){ openBtn.disabled = false; startMachine(who); }, reduce ? 300 : 1100);
+    later(function(){ openBtn.disabled = false; startMachine(res.n, res.t); }, reduce ? 300 : 1100);
   });
 
   /* ---------- tela 2: máquina ---------- */
   var intro = $('intro'), machine = $('machine'), stage = $('stage'), mach = $('mach');
   var lever = $('lever'), pop = $('pop'), after = $('after'), busy = false;
 
-  function startMachine(name){
+  function startMachine(name, target){
     clearTimers();
-    current = name; busy = false;
+    current = name; currentTarget = target; busy = false;
     intro.hidden = true; machine.hidden = false; window.scrollTo(0, 0);
     $('hello').textContent = 'Olá, ' + name + '!';
     $('hint').textContent = 'Puxe a alavanca vermelha, ali na setinha!';
@@ -494,7 +466,7 @@ button{cursor:pointer}
     if (busy || !current) return;
     busy = true;
     var who = current;
-    var target = getDraw()[who];
+    var target = currentTarget;
     $('who').textContent = target;
     lever.classList.add('pulled'); $('pullTag').hidden = true;
     mach.classList.add('fast');
@@ -519,13 +491,14 @@ button{cursor:pointer}
     }, t.name);
     later(function(){
       var extra = $('extra');
-      if (HINTS[who]){ extra.textContent = HINTS[who]; extra.hidden = false; } else { extra.hidden = true; }
+      extra.hidden = true;
       var wa = $('wa');
-      var msg = (who === ORGANIZER)
-        ? 'Oi, eu mesma! Já abri o meu papelzinho do amigo oculto.'
-        : 'Oi, Carol! Aqui é ' + who + '. Já abri o meu papelzinho do amigo oculto!';
-      wa.hidden = false;
-      wa.href = 'https://wa.me/' + WA_NUMBER + '?text=' + encodeURIComponent(msg);
+      if (who === ORGANIZER){
+        wa.hidden = true;
+      } else {
+        wa.hidden = false;
+        wa.href = 'https://wa.me/' + WA_NUMBER + '?text=' + encodeURIComponent('Oi, Carol! Aqui é ' + who + '. Já abri o meu papelzinho do amigo oculto!');
+      }
       after.hidden = false;
       after.scrollIntoView({behavior: reduce ? 'auto' : 'smooth', block: 'nearest'});
     }, t.show);
@@ -537,7 +510,7 @@ button{cursor:pointer}
 
   $('back').addEventListener('click', function(){
     clearTimers();
-    current = null; busy = false;
+    current = null; currentTarget = ''; busy = false;
     machine.hidden = true; intro.hidden = false;
     input.value = ''; errEl.textContent = '';
     padlock.classList.remove('unlocked');
